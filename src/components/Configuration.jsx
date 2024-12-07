@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as XLSX from "xlsx";
-import { setScreenDetail, setMediaPlayerDetail, setMountDetail, setReceptacleBoxDetail } from "../redux/screenSlice";
+import { 
+  setScreenDetail, 
+  setMediaPlayerDetail, 
+  setMountDetail, 
+  setReceptacleBoxDetail, 
+  setOrientation, 
+  setWallType,
+  setFloorDistance,
+  setNicheDepth
+} from "../redux/screenSlice";
 
 
 const Configuration = () => {
@@ -49,7 +58,6 @@ const Configuration = () => {
 
   const handleScreenChange = (screenId) => {
     const screen = screens.find((s) => s["Screen MFR"] === screenId);
-    
     dispatch(setScreenDetail({
       height: screen.Height,
       width: screen.Width,
@@ -58,7 +66,6 @@ const Configuration = () => {
   };
   const handlePayerChange = (mediaplayerId) => {
     const player = mediaPlayers.find((s) => s["MFG. PART"] === mediaplayerId);
-    
     dispatch(setMediaPlayerDetail({
       mediaPlayerDepth: player.Depth,
     }))
@@ -80,6 +87,22 @@ const Configuration = () => {
     
   };
 
+  const handleOrientationChange = (newOrientation) => {
+    dispatch(setOrientation(newOrientation));
+  };
+
+  const handleWallTypeChange = (newWallType) => {
+    dispatch(setWallType(newWallType));
+  };
+
+  const handleFloorDistanceChange = (value) => {
+    dispatch(setFloorDistance(value));
+  };
+
+  const handleNicheDepthChange = (value) => {
+    dispatch(setNicheDepth(value));
+  };
+
   console.log(screen);
   
   return (
@@ -88,7 +111,7 @@ const Configuration = () => {
 
       {/* Screen Dropdown */}
       <label>
-        Screen: 
+        Screen 
         {screens.length > 0 && (
           <select onChange={(e) => handleScreenChange(e.target.value)}>
             <option value="">Select Screen</option>
@@ -101,8 +124,9 @@ const Configuration = () => {
         )}
       </label>
 
+        {/* Media Player Dropdown */}
       <label>
-        Media Player: 
+        Media Player 
         {mediaPlayers.length > 0 && (
           <select onChange={(e) => handlePayerChange(e.target.value)}>
             <option value="">Select Media Player</option>
@@ -115,6 +139,7 @@ const Configuration = () => {
         )}
       </label>
 
+      {/* Mount Dropdown */}
       <label>
         Mount: 
         {mounts.length > 0 && (
@@ -129,6 +154,7 @@ const Configuration = () => {
         )}
       </label>
 
+      {/* Receptacle Box Dropdown */}
       <label>
         Receptacle Box: 
         {receptacles.length > 0 && (
@@ -143,17 +169,80 @@ const Configuration = () => {
         )}
       </label>
 
-
-
-
-      {/* Screen Details
-      {screen && (
-        <div>
-          <h3>Screen Details</h3>
-          <p>Height: {screen.height}</p>
-          <p>Width: {screen.width}</p>
+      {/* Vertical/Horizontal Toggle */}
+      <div className="mb-4">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleOrientationChange("Vertical")}
+            className={`px-4 py-2 ${
+              screen.orientation === "Vertical"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Vertical
+          </button>
+          <button
+            onClick={() => handleOrientationChange("Horizontal")}
+            className={`px-4 py-2 ${
+              screen.orientation === "Horizontal"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Horizontal
+          </button>
         </div>
-      )} */}
+      </div>
+
+      {/* Niche/Flat Wall Toggle */}
+      <div className="mb-4">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleWallTypeChange("Niche")}
+            className={`px-4 py-2 ${
+              screen.wallType === "Niche"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Niche
+          </button>
+          <button
+            onClick={() => handleWallTypeChange("Flat Wall")}
+            className={`px-4 py-2 ${
+              screen.wallType === "Flat Wall"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Flat Wall
+          </button>
+        </div>
+      </div>   
+
+       {/* Floor Distance Input */}
+      <label>
+        Floor Distance
+        <input
+          type="number"
+          value={screen.floorDistance}
+          onChange={(e) => handleFloorDistanceChange(e.target.value)}
+          className="border p-2"
+        />
+      </label>
+
+      {/* Niche Depth Input */}
+      <label>
+        Niche Depth Var
+        <input
+          type="number"
+          value={screen.nicheDepth}
+          onChange={(e) => handleNicheDepthChange(e.target.value)}
+          className="border p-2"
+        />
+      </label>
+ 
     </div>
   );
 };
