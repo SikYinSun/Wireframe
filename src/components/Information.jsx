@@ -10,12 +10,12 @@ function Information() {
   const screenDimensions = [
     { label: "Height", value: info.height },
     { label: "Width", value: info.width },
-    { label: "Floor line", value: info.floorDistance },
+    { label: "Floor line", value: info.floorDistance ? info.floorDistance : ""},
   ];
   const nicheDimensions = [
-    { label: "Height", value: info.screenSize < 55 ? info.height + 1.5 : info.height + 2 },
-    { label: "Width", value: info.screenSize < 55 ? info.width + 1.5 : info.width + 2 },
-    { label: "Depth", value: info.screenDepth + Math.max(info.mediaPlayerDepth, info.mountDepth) + info.nicheDepth },
+    { label: "Height", value: info.screenSize ? info.screenSize < 55 ? info.height + 1.5 : info.height + 2 : "" },
+    { label: "Width", value: info.screenSize ? info.screenSize < 55 ? info.width + 1.5 : info.width + 2 : ""},
+    { label: "Depth", value: info.screenDepth ? info.screenDepth + Math.max(info.mediaPlayerDepth, info.mountDepth) + info.nicheDepth : "" },
   ];
 
   const Summary = [
