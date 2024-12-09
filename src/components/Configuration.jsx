@@ -59,8 +59,10 @@ const Configuration = () => {
   const handleScreenChange = (screenId) => {
     const screen = screens.find((s) => s["Screen MFR"] === screenId);
     dispatch(setScreenDetail({
+      screenSize: screen['Screen Size'],
       height: screen.Height,
       width: screen.Width,
+      screenDepth: screen.Depth,
     }))
     
   };

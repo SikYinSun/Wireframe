@@ -2,8 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   screen: {
+    screenSize: '',
     height: '',
     width: '',
+    screenDepth: '',
     mediaPlayerDepth: '',
     mountDepth: '',
     boxDepth: '',
@@ -19,8 +21,11 @@ const screenSlice = createSlice({
   initialState: initialState,
   reducers: {
     setScreenDetail: (state, action) => {
+      state.screen.screenSize = action.payload.screenSize;
       state.screen.height = action.payload.height;
       state.screen.width = action.payload.width;
+      state.screen.screenDepth = action.payload.screenDepth;
+
     },
     setMediaPlayerDetail: (state, action) => {
       state.screen.mediaPlayerDepth = action.payload.mediaPlayerDepth;
