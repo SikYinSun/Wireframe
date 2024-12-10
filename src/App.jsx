@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import Configuration from './components/Configuration';
 import Description from './components/Description';
 import Diagram from './components/Diagram';
@@ -8,6 +9,7 @@ import { useRef } from 'react';
 
 function App() {
   const contentRef = useRef(null);
+  const form = useSelector((state) => state.form.description)
 
   const handleSaveAsPDF = async () => {
     const element = contentRef.current;
@@ -24,7 +26,7 @@ function App() {
     });
 
     pdf.addImage(imgData, 'PNG', 0, 0);
-    pdf.save('drawing.pdf');
+    pdf.save(form.title ? `${form.title}.pdf` : "Drawing.pdf");
   };
 
   return (
