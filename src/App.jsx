@@ -1,5 +1,5 @@
 import Configuration from './components/Configuration';
-import Description from './components/description';
+import Description from './components/Description';
 import Diagram from './components/Diagram';
 import Information from './components/Information';
 import html2canvas from 'html2canvas';
