@@ -12,7 +12,6 @@ import {
   setNicheDepth
 } from "../redux/screenSlice";
 
-
 const Configuration = () => {
   const dispatch = useDispatch();
   const screen = useSelector((state) => state.screen.screen);
@@ -23,7 +22,6 @@ const Configuration = () => {
   const [receptacles, setReceptacles] = useState([]);
 
   useEffect(() => {
-  
     const filePath = "/data/PDFBuilder.xlsx";
     fetch(filePath)
       .then((response) => response.arrayBuffer())
@@ -64,21 +62,18 @@ const Configuration = () => {
       width: screen.Width,
       screenDepth: screen.Depth,
     }))
-    
   };
   const handlePayerChange = (mediaplayerId) => {
     const player = mediaPlayers.find((s) => s["MFG. PART"] === mediaplayerId);
     dispatch(setMediaPlayerDetail({
       mediaPlayerDepth: player.Depth,
     }))
-    
   };
   const handleMountChange = (mountId) => {
     const mount = mounts.find((s) => s["MFG. PART"] === mountId);
     dispatch(setMountDetail({
       mountDepth: mount["Depth (in)"],
-    }))
-    
+    })) 
   };
   const handleReceptacleBoxChange = (boxId) => {
     const box = receptacles.find((s) => s["MFG. PART"] === boxId);
@@ -86,7 +81,6 @@ const Configuration = () => {
       boxDepth: box["Depth (in)"],
       
     }))
-    
   };
 
   const handleOrientationChange = (newOrientation) => {
@@ -194,7 +188,6 @@ const Configuration = () => {
           Horizontal
         </button>
       </div>
-
 
       {/* Niche/Flat Wall Toggle */}
       <div className="w-full flex">

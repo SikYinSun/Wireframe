@@ -3,7 +3,6 @@ import Dimensions from './Dimensions'
 import { useSelector } from "react-redux";
 
 function Information() {
-
   const info = useSelector((state) => state.screen.screen);
   const form = useSelector((state) => state.form.description)
 

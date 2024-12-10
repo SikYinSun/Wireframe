@@ -331,8 +331,6 @@ const Diagram = () => {
             strokeWidth={1}
           />
           <Text x={screenCenterX + tvDimensions.width / 2 + 35} y={screenCenterY - tvDimensions.height / 2 - 90} text="Install recessed receptacle box" fontSize={12} />  
-
-
         </Layer>
       </Stage>
     </div>

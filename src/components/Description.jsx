@@ -2,9 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDescription } from '../redux/formSlice';
 
-
 function Description() {
-
   const dispatch = useDispatch();
   const description = useSelector((state) => state.form.description);
  
