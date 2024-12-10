@@ -4,13 +4,27 @@ import { useSelector } from "react-redux";
 
 const Diagram = () => {
   const [dimensions, setDimensions] = useState({width: 300, height: 200});
-  const [canvasSize, setCanvasSize] = useState({width: 800,height: 600,});
+  const [canvasSize, setCanvasSize] = useState({width: 800, height: 600,});
   const containerRef = useRef(null);
   const screen = useSelector((state) => state.screen.screen);
-  const nicheDimensions = {
+  const nicheDimensions = screen.orientation === "Horizontal" ? 
+  {
     height: screen.screenSize ? screen.screenSize < 55 ? screen.height + 1.5 : screen.height + 2 : "" ,
     width: screen.screenSize ? screen.screenSize < 55 ? screen.width + 1.5 : screen.width + 2 : "",
-};
+  } : 
+  {
+    height: screen.screenSize ? screen.screenSize < 55 ? screen.width + 1.5 : screen.width + 2 : "",
+    width: screen.screenSize ? screen.screenSize < 55 ? screen.height + 1.5 : screen.height + 2 : "",
+  };
+  const tvSize = screen.orientation === "Horizontal" ? 
+  {
+    height: screen.height ? screen.height : "" ,
+    width: screen.width ? screen.width :  "",
+  } : 
+  {
+    height: screen.width ? screen.width : "",
+    width: screen.height ? screen.height : "",
+  };
 
   // Resize canvas dynamically based on the div container size
   const updateCanvasSize = () => {
@@ -28,7 +42,10 @@ const Diagram = () => {
     return () => window.removeEventListener("resize", updateCanvasSize);
   }, []);
 
-  const { width: tvWidth, height: tvHeight } = dimensions;
+  const tvDimensions = screen.orientation === "Vertical" ? 
+  { width: dimensions.height, height: dimensions.width } : 
+  { width: dimensions.width, height: dimensions.height };
+
   const { width: canvaWidth, height: canvaHeight } = canvasSize;
 
   // Calculate center 
@@ -44,28 +61,28 @@ const Diagram = () => {
           <Group>
             {/* TV Rectangle */}
             <Rect
-              x={screenCenterX - tvWidth / 2}
-              y={screenCenterY - tvHeight / 2}
-              width={tvWidth}
-              height={tvHeight}
+              x={screenCenterX - tvDimensions.width / 2}
+              y={screenCenterY - tvDimensions.height / 2}
+              width={tvDimensions.width}
+              height={tvDimensions.height}
               stroke="black"
               strokeWidth={2}
             />
             {/* Box Reactangle */}
             <Rect
-              x={screenCenterX - tvWidth / 2 - 10}
-              y={screenCenterY - tvHeight / 2 - 10}
-              width={tvWidth + 20}
-              height={tvHeight + 20}
+              x={screenCenterX - tvDimensions.width / 2 - 10}
+              y={screenCenterY - tvDimensions.height / 2 - 10}
+              width={tvDimensions.width + 20}
+              height={tvDimensions.height + 20}
               stroke="black"
               strokeWidth={1}
             />
             {/* Dotted box */}
             <Rect
-              x={screenCenterX - tvWidth / 2 + 15}
-              y={screenCenterY - tvHeight / 2 + 15}
-              width={tvWidth - 25}
-              height={tvHeight - 25}
+              x={screenCenterX - tvDimensions.width / 2 + 15}
+              y={screenCenterY - tvDimensions.height / 2 + 15}
+              width={tvDimensions.width - 25}
+              height={tvDimensions.height - 25}
               stroke="black"
               strokeWidth={1}
               dash={[5, 5]}
@@ -75,179 +92,179 @@ const Diagram = () => {
           {/* Floor Line */}
           <Group>
             <Rect
-              x={screenCenterX - tvWidth / 2 - 150}
+              x={screenCenterX - tvDimensions.width / 2 - 150}
               y={screenCenterY + 100}
               width={55}
               height={25}
               stroke="black"
               strokeWidth={1}
             />
-            <Text x={screenCenterX - tvWidth / 2 - 128} y={screenCenterY + 108} text={screen.floorDistance ? `${screen.floorDistance}"` : ""} fontSize={12} />
+            <Text x={screenCenterX - tvDimensions.width / 2 - 128} y={screenCenterY + 108} text={screen.floorDistance ? `${screen.floorDistance}"` : ""} fontSize={12} />
             <Line
               points={[0, floorLineY, canvaWidth, floorLineY]} 
               stroke="black"
               strokeWidth={1}
             />
             <Arrow
-              points={[screenCenterX - tvWidth / 2 - 80, screenCenterY + 10, screenCenterX - tvWidth / 2 - 80, floorLineY - 10]}
+              points={[screenCenterX - tvDimensions.width / 2 - 80, screenCenterY + 10, screenCenterX - tvDimensions.width / 2 - 80, floorLineY - 10]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Arrow
-              points={[screenCenterX - tvWidth / 2 - 80, floorLineY - 10, screenCenterX - tvWidth / 2 - 80, screenCenterY + 10]}
+              points={[screenCenterX - tvDimensions.width / 2 - 80, floorLineY - 10, screenCenterX - tvDimensions.width / 2 - 80, screenCenterY + 10]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
-            <Text x={screenCenterX - tvWidth / 2 - 150} y={floorLineY - 100} text="Floor Line" fontSize={12} />
+            <Text x={screenCenterX - tvDimensions.width / 2 - 150} y={floorLineY - 100} text="Floor Line" fontSize={12} />
           </Group>
 
           {/* Left Box */}
           <Group>
             <Line
-              points={[screenCenterX - tvWidth / 2 - 40, screenCenterY - tvHeight / 2 - 10, screenCenterX - tvWidth / 2 - 15, screenCenterY - tvHeight / 2 - 10]} 
+              points={[screenCenterX - tvDimensions.width / 2 - 40, screenCenterY - tvDimensions.height / 2 - 10, screenCenterX - tvDimensions.width / 2 - 15, screenCenterY - tvDimensions.height / 2 - 10]} 
               stroke="black"
               strokeWidth={1}
             />
             <Line
-              points={[screenCenterX - tvWidth / 2 - 40, screenCenterY + tvHeight / 2 + 10, screenCenterX - tvWidth / 2 - 15, screenCenterY + tvHeight / 2 + 10]} 
+              points={[screenCenterX - tvDimensions.width / 2 - 40, screenCenterY + tvDimensions.height / 2 + 10, screenCenterX - tvDimensions.width / 2 - 15, screenCenterY + tvDimensions.height / 2 + 10]} 
               stroke="black"
               strokeWidth={1}
             />
             <Arrow
-              points={[screenCenterX - tvWidth / 2 - 40, screenCenterY - tvHeight / 2 - 5, screenCenterX - tvWidth / 2 - 40, screenCenterY + tvHeight / 2 + 5]}
+              points={[screenCenterX - tvDimensions.width / 2 - 40, screenCenterY - tvDimensions.height / 2 - 5, screenCenterX - tvDimensions.width / 2 - 40, screenCenterY + tvDimensions.height / 2 + 5]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Arrow
-              points={[screenCenterX - tvWidth / 2 - 40, screenCenterY + tvHeight / 2 + 5, screenCenterX - tvWidth / 2 - 40, screenCenterY - tvHeight / 2 - 5]}
+              points={[screenCenterX - tvDimensions.width / 2 - 40, screenCenterY + tvDimensions.height / 2 + 5, screenCenterX - tvDimensions.width / 2 - 40, screenCenterY - tvDimensions.height / 2 - 5]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Rect
-              x={screenCenterX - tvWidth / 2 - 100}
+              x={screenCenterX - tvDimensions.width / 2 - 100}
               y={screenCenterY - 68}
               width={55}
               height={25}
               stroke="black"
               strokeWidth={1}
             />
-            <Text x={screenCenterX - tvWidth / 2 - 90} y={screenCenterY - 60} text={nicheDimensions.height ? `${nicheDimensions.height}"` : ""} fontSize={12} />  
+            <Text x={screenCenterX - tvDimensions.width / 2 - 90} y={screenCenterY - 60} text={nicheDimensions.height ? `${nicheDimensions.height}"` : ""} fontSize={12} />  
           </Group>
           {/* Bottom Box */}
           <Group>
             <Line
-              points={[screenCenterX - tvWidth / 2 - 10, screenCenterY + tvHeight / 2 + 40, screenCenterX - tvWidth / 2 - 10, screenCenterY + tvHeight / 2 + 15]} 
+              points={[screenCenterX - tvDimensions.width / 2 - 10, screenCenterY + tvDimensions.height / 2 + 40, screenCenterX - tvDimensions.width / 2 - 10, screenCenterY + tvDimensions.height / 2 + 15]} 
               stroke="black"
               strokeWidth={1}
             />
              <Line
-              points={[screenCenterX + tvWidth / 2 + 10, screenCenterY + tvHeight / 2 + 40, screenCenterX + tvWidth / 2 + 10, screenCenterY + tvHeight / 2 + 15]} 
+              points={[screenCenterX + tvDimensions.width / 2 + 10, screenCenterY + tvDimensions.height / 2 + 40, screenCenterX + tvDimensions.width / 2 + 10, screenCenterY + tvDimensions.height / 2 + 15]} 
               stroke="black"
               strokeWidth={1}
             />
             <Arrow
-              points={[screenCenterX - tvWidth / 2 - 5, screenCenterY + tvHeight / 2 + 45, screenCenterX + tvWidth / 2 + 5, screenCenterY + tvHeight / 2 + 45]}
+              points={[screenCenterX - tvDimensions.width / 2 - 5, screenCenterY + tvDimensions.height / 2 + 45, screenCenterX + tvDimensions.width / 2 + 5, screenCenterY + tvDimensions.height / 2 + 45]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Arrow
-              points={[screenCenterX + tvWidth / 2 + 5, screenCenterY + tvHeight / 2 + 45, screenCenterX - tvWidth / 2 - 5, screenCenterY + tvHeight / 2 + 45]}
+              points={[screenCenterX + tvDimensions.width / 2 + 5, screenCenterY + tvDimensions.height / 2 + 45, screenCenterX - tvDimensions.width / 2 - 5, screenCenterY + tvDimensions.height / 2 + 45]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Rect
-              x={screenCenterX - 80}
-              y={screenCenterY + 150}
+              x={screenCenterX - tvDimensions.width / 2 + 40}
+              y={screenCenterY + tvDimensions.height / 2 + 50}
               width={55}
               height={25}
               stroke="black"
               strokeWidth={1}
             />
-            <Text x={screenCenterX - 70} y={screenCenterY + tvHeight / 2 + 58} text={nicheDimensions.width ? `${nicheDimensions.width}"` : ""} fontSize={12} />  
+            <Text x={screenCenterX - tvDimensions.width / 2 + 50} y={screenCenterY + tvDimensions.height / 2 + 58} text={nicheDimensions.width ? `${nicheDimensions.width}"` : ""} fontSize={12} />  
           </Group>
           {/* Top Box */}
           <Group>
             <Line
-              points={[screenCenterX - tvWidth / 2 - 10, screenCenterY - tvHeight / 2 - 40, screenCenterX - tvWidth / 2 - 10, screenCenterY - tvHeight / 2 - 15]} 
+              points={[screenCenterX - tvDimensions.width / 2 - 10, screenCenterY - tvDimensions.height / 2 - 40, screenCenterX - tvDimensions.width / 2 - 10, screenCenterY - tvDimensions.height / 2 - 15]} 
               stroke="black"
               strokeWidth={1}
             />
            <Line
-              points={[screenCenterX + tvWidth / 2 + 10, screenCenterY - tvHeight / 2 - 40, screenCenterX + tvWidth / 2 + 10, screenCenterY - tvHeight / 2 - 15]} 
+              points={[screenCenterX + tvDimensions.width / 2 + 10, screenCenterY - tvDimensions.height / 2 - 40, screenCenterX + tvDimensions.width / 2 + 10, screenCenterY - tvDimensions.height / 2 - 15]} 
               stroke="black"
               strokeWidth={1}
             />
            <Arrow
-              points={[screenCenterX - tvWidth / 2 - 5, screenCenterY - tvHeight / 2 - 45, screenCenterX + tvWidth / 2 + 5, screenCenterY - tvHeight / 2 - 45]}
+              points={[screenCenterX - tvDimensions.width / 2 - 5, screenCenterY - tvDimensions.height / 2 - 45, screenCenterX + tvDimensions.width / 2 + 5, screenCenterY - tvDimensions.height / 2 - 45]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Arrow
-              points={[screenCenterX + tvWidth / 2 + 5, screenCenterY - tvHeight / 2 - 45, screenCenterX - tvWidth / 2 - 5, screenCenterY - tvHeight / 2 - 45]}
+              points={[screenCenterX + tvDimensions.width / 2 + 5, screenCenterY - tvDimensions.height / 2 - 45, screenCenterX - tvDimensions.width / 2 - 5, screenCenterY - tvDimensions.height / 2 - 45]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Rect
-              x={screenCenterX - 80}
-              y={screenCenterY - 180}
+              x={screenCenterX - tvDimensions.width / 2 + 40}
+              y={screenCenterY - tvDimensions.height / 2 - 80}
               width={55}
               height={25}
               stroke="black"
               strokeWidth={1}
             />
-            <Text x={screenCenterX - 70} y={screenCenterY - tvHeight / 2 - 70} text={screen.width ? `${screen.width}"` : ""} fontSize={12} />  
+            <Text x={screenCenterX - tvDimensions.width / 2 + 50} y={screenCenterY - tvDimensions.height / 2 - 70} text={tvSize.width ? `${tvSize.width}"` : ""} fontSize={12} />  
           </Group>
           {/* Right Box */}
           <Group>
             <Line
-              points={[screenCenterX + tvWidth / 2 + 40, screenCenterY - tvHeight / 2 - 10, screenCenterX + tvWidth / 2 + 15, screenCenterY - tvHeight / 2 - 10]} 
+              points={[screenCenterX + tvDimensions.width / 2 + 40, screenCenterY - tvDimensions.height / 2 - 10, screenCenterX + tvDimensions.width / 2 + 15, screenCenterY - tvDimensions.height / 2 - 10]} 
               stroke="black"
               strokeWidth={1}
             />
             <Line
-              points={[screenCenterX + tvWidth / 2 + 40, screenCenterY + tvHeight / 2 + 10, screenCenterX + tvWidth / 2 + 15, screenCenterY + tvHeight / 2 + 10]} 
+              points={[screenCenterX + tvDimensions.width / 2 + 40, screenCenterY + tvDimensions.height / 2 + 10, screenCenterX + tvDimensions.width / 2 + 15, screenCenterY + tvDimensions.height / 2 + 10]} 
               stroke="black"
               strokeWidth={1}
             />
             <Arrow
-              points={[screenCenterX + tvWidth / 2 + 40, screenCenterY - tvHeight / 2 - 5, screenCenterX + tvWidth / 2 + 40, screenCenterY + tvHeight / 2 + 5]}
+              points={[screenCenterX + tvDimensions.width / 2 + 40, screenCenterY - tvDimensions.height / 2 - 5, screenCenterX + tvDimensions.width / 2 + 40, screenCenterY + tvDimensions.height / 2 + 5]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Arrow
-              points={[screenCenterX + tvWidth / 2 + 40, screenCenterY + tvHeight / 2 + 5, screenCenterX + tvWidth / 2 + 40, screenCenterY - tvHeight / 2 - 5]}
+              points={[screenCenterX + tvDimensions.width / 2 + 40, screenCenterY + tvDimensions.height / 2 + 5, screenCenterX + tvDimensions.width / 2 + 40, screenCenterY - tvDimensions.height / 2 - 5]}
               stroke="#000"
               fill="#000"
               strokeWidth={1}
               pointerWidth={4}
             />
             <Rect
-              x={screenCenterX + tvWidth / 2 + 45}
+              x={screenCenterX + tvDimensions.width / 2 + 45}
               y={screenCenterY - 68}
               width={55}
               height={25}
               stroke="black"
               strokeWidth={1}
             />
-            <Text x={screenCenterX + tvWidth / 2 + 55} y={screenCenterY - 60} text={screen.height ? `${screen.height}"` : ""} fontSize={12} />  
+            <Text x={screenCenterX + tvDimensions.width / 2 + 55} y={screenCenterY - 60} text={tvSize.height ? `${tvSize.height}"` : ""} fontSize={12} />  
           </Group>
 
           {/* Centerlines */}
@@ -274,19 +291,19 @@ const Diagram = () => {
           {/* Center Dotted Box */}
           <Group>
             <Rect
-              x={screenCenterX - 28}
-              y={screenCenterY + 35}
-              width={tvWidth - 245}
-              height={tvHeight - 160}
+              x={screen.orientation === "Horizontal" ? screenCenterX + tvDimensions.width / 2 - 178 : screenCenterX + tvDimensions.width / 2 - 130 }
+              y={screen.orientation === "Horizontal" ? screenCenterY + tvDimensions.height / 2 - 65 : screenCenterY + tvDimensions.height / 2 - 110 }
+              width={screen.orientation === "Horizontal" ? tvDimensions.width - 245 : tvDimensions.height - 245}
+              height={screen.orientation === "Horizontal" ? tvDimensions.height - 160 : tvDimensions.width - 160}
               stroke="black"
               strokeWidth={1}
               dash={[5, 5]}
             />
             <Rect
-              x={screenCenterX - 18}
-              y={screenCenterY + 45}
-              width={tvWidth - 265}
-              height={tvHeight - 180}
+              x={screen.orientation === "Horizontal" ? screenCenterX + tvDimensions.width / 2 - 168 : screenCenterX + tvDimensions.width / 2 - 120}
+              y={screen.orientation === "Horizontal" ? screenCenterY + tvDimensions.height / 2 - 55 : screenCenterY + tvDimensions.height / 2 - 100}
+              width={screen.orientation === "Horizontal" ? tvDimensions.width - 265 : tvDimensions.height - 265}
+              height={screen.orientation === "Horizontal" ? tvDimensions.height - 180 : tvDimensions.width - 180}
               stroke="black"
               strokeWidth={1}
               dash={[5, 5]}
@@ -302,18 +319,18 @@ const Diagram = () => {
 
           {/* Line & Text for Screen center */}
           <Line
-            points={[screenCenterX, screenCenterY, screenCenterX + 100, screenCenterY - tvHeight / 2 - 125, screenCenterX + tvWidth / 2 + 35, screenCenterY - tvHeight / 2 - 125 ]} 
+            points={[screenCenterX, screenCenterY, screenCenterX + 100, screenCenterY - tvDimensions.height / 2 - 125, screenCenterX + tvDimensions.width / 2 + 35, screenCenterY - tvDimensions.height / 2 - 125 ]} 
             stroke="black"
             strokeWidth={1}
           />
-          <Text x={screenCenterX + tvWidth / 2 + 35} y={screenCenterY - tvHeight / 2 - 130} text="Intended Screen Position" fontSize={12} />  
+          <Text x={screenCenterX + tvDimensions.width / 2 + 35} y={screenCenterY - tvDimensions.height / 2 - 130} text="Intended Screen Position" fontSize={12} />  
 
           <Line
-            points={[screenCenterX + 10, screenCenterY + 50, screenCenterX + 120, screenCenterY - tvHeight / 2 - 85, screenCenterX + tvWidth / 2 + 35, screenCenterY - tvHeight / 2 - 85 ]} 
+            points={[screenCenterX + 10, screenCenterY + 50, screenCenterX + 120, screenCenterY - tvDimensions.height / 2 - 85, screenCenterX + tvDimensions.width / 2 + 35, screenCenterY - tvDimensions.height / 2 - 85 ]} 
             stroke="black"
             strokeWidth={1}
           />
-          <Text x={screenCenterX + tvWidth / 2 + 35} y={screenCenterY - tvHeight / 2 - 90} text="Install recessed receptacle box" fontSize={12} />  
+          <Text x={screenCenterX + tvDimensions.width / 2 + 35} y={screenCenterY - tvDimensions.height / 2 - 90} text="Install recessed receptacle box" fontSize={12} />  
 
 
         </Layer>

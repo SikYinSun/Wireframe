@@ -9,7 +9,7 @@ const initialState = {
     mediaPlayerDepth: '',
     mountDepth: '',
     boxDepth: '',
-    orientation: 'Vertical',
+    orientation: 'Horizontal',
     wallType: 'Niche',
     floorDistance: 0,
     nicheDepth: 0,
