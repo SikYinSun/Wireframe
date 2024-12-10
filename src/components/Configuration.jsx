@@ -222,7 +222,7 @@ const Configuration = () => {
 
        {/* Floor Distance Input */}
        <div className="flex w-full border border-black">
-        <label className="w-1/2 border border-black bg-slate-500 flex items-center justify-center">
+        <label className="w-1/2 border border-black bg-slate-300 flex items-center justify-center">
           Floor Distance
         </label>
         <input
@@ -234,7 +234,7 @@ const Configuration = () => {
       </div>
       {/* Niche Depth Input */}
       <div className="flex w-full border border-black">
-        <label className="w-1/2 border border-black bg-slate-500 flex items-center justify-center">
+        <label className="w-1/2 border border-black bg-slate-300 flex items-center justify-center">
           Niche Depth Var
         </label>
         <input
